@@ -32,7 +32,11 @@ Document at least 3 bugs you found. Add rows as needed.
 - Give one example of an AI suggestion that was correct (including what the AI suggested and how you verified the result).
 - Give one example of an AI suggestion that was incorrect or misleading (including what the AI suggested and how you verified the result).
 
----
+--- Used Claude  
+--- One suggestion AI gave me was to penalize the scores for high and low similarly and also suggested to make it into a clean single code snippet.
+I noticed that the initial code penalty for too high score so I just verified and approved it.
+
+---- The AI seemed to added a "guess the number from..." block twice even though it was in the code. I had to suggest to remove it. not sure how it got that idea. it did mess up a lot of code and I had to revisit some changes. 
 
 ## 3. Debugging and testing your fixes
 
@@ -41,13 +45,15 @@ Document at least 3 bugs you found. Add rows as needed.
   and what it showed you about your code.
 - Did AI help you design or understand any tests? How?
 
----
+--- I used Pytest to test and I manually ran the test when I ran the application.
+--- I tried all the levels "easy, normal, hard" to ensure I was able to get the right number of attempts and hints
+--- AI helped me design edge cases to test a single fix me issue. 
 
 ## 4. What did you learn about Streamlit and state?
 
 - How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
 
----
+--- Stremlit reruns the each script and session state keeps the information in tact until session ends.
 
 ## 5. Looking ahead: your developer habits
 
@@ -55,3 +61,7 @@ Document at least 3 bugs you found. Add rows as needed.
   - This could be a testing habit, a prompting strategy, or a way you used Git.
 - What is one thing you would do differently next time you work with AI on a coding task?
 - In one or two sentences, describe how this project changed the way you think about AI generated code.
+
+--- Pytest. I am new to python and used to work on Java more and I was suprised we have  PyTest which i similar to Junit tests
+--- I ran into some more issues after my initial fixes, next time I should go over the issues more deeper and get all the fixe comments before solving them
+--- Sometimes AI can mess things up. It did change and bring up more issues that I didn't expect. 
