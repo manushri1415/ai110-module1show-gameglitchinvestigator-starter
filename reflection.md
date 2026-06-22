@@ -7,16 +7,22 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 - What did the game look like the first time you ran it?
 - List at least two concrete bugs you noticed at the start  
   (for example: "the hints were backwards").
+  The hints were backwards
+  Attempts left seems to be changing
+  incorrect "Go higher", "Go Lower"
+  "Game over. Start a new game to try again." when clicked "New Game"
+  shows attempts left:1 but the hint says out of attempts
+  Attempts left: -1 
 
 **Bug Reproduction Log**
 
 Document at least 3 bugs you found. Add rows as needed.
 
-| Input | Expected Behavior | Actual Behavior | Console Output / Error |
-|-------|-------------------|-----------------|------------------------|
-| | | | |
-| | | | |
-| | | | |
+| Input         | Expected Behavior | Actual Behavior | Console Output / Error |
+|-------        |-------------------|-----------------|------------------------|
+|50|90 |96 |99 |  Go lower, Num= 17 | Go Higher!        NORMAL                             
+|40 | 60|80 | 90| Go Lower, Num=13 | Go HIGHER!         EASY
+|50 |40 | 20| | Go HIGHER! nUM= 74 | Go lower           HARD
 
 ---
 
