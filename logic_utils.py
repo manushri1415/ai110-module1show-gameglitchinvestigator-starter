@@ -2,10 +2,11 @@ def get_range_for_difficulty(difficulty: str):
     """Return (low, high) inclusive range for a given difficulty."""
     if difficulty == "Easy":
         return 1, 20
+    # FIXME 15: Normal and Hard ranges were swapped - corrected to Normal: 1-50, Hard: 1-100 with agent assistance
     if difficulty == "Normal":
-        return 1, 100
-    if difficulty == "Hard":
         return 1, 50
+    if difficulty == "Hard":
+        return 1, 100
     return 1, 100
 
 
@@ -41,19 +42,10 @@ def check_guess(guess, secret):
     if guess == secret:
         return "Win", "🎉 Correct!"
 
-    # FIXME 1 fixed: Swapped "Go HIGHER/LOWER" - was reversed
-    # FIXME 14: Dead code - TypeError handler and string comparison unnecessary after FIXME 2 removed type alternation
-    try:
-        if guess > secret:
-            return "Too High", "📉 Go LOWER!"
-        else:
-            return "Too Low", "📈 Go HIGHER!"
-    except TypeError:
-        g = str(guess)
-        if g == secret:
-            return "Win", "🎉 Correct!"
-        if g > secret:
-            return "Too High", "📉 Go LOWER!"
+    # FIXME 1+14: Swapped "Go HIGHER/LOWER" (was reversed) & removed dead TypeError handler - fixed with agent assistance
+    if guess > secret:
+        return "Too High", "📉 Go LOWER!"
+    else:
         return "Too Low", "📈 Go HIGHER!"
 
 
@@ -65,8 +57,7 @@ def update_score(current_score: int, outcome: str, attempt_number: int):
             points = 10
         return current_score + points
 
-    # FIXME 3 fixed: Was rewarding wrong guesses on even attempts - now consistently penalizes all wrong guesses
-    # FIXME 4 fixed: Redundant penalty logic - consolidated "Too High" and "Too Low" into single condition
+    # FIXME 3+4: Stopped rewarding wrong guesses on even attempts & consolidated penalty logic - fixed with agent assistance
     if outcome in ("Too High", "Too Low"):
         return current_score - 5
 

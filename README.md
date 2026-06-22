@@ -33,14 +33,14 @@ It wrote the code, ran away, and now the game is unplayable.
 
 Describe your fixed game in numbered steps so a reader can follow along without watching a video:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. The game is in Normal (range is from 1 to 50)
+2. User enters a guess of 45 → "Go Lower"
+3. User enters a guess of 36 → "Go Lower"
+4. User enters a guess of 24 → "You won! The secret was 24. Final score: 50"
+5. Game ends after the correct guess
 
 **Screenshot** *(optional)*: <!-- Insert a screenshot of your fixed, winning game here -->
-
+![alt text](image.png)
 ## 🧪 Test Results
 
 ```

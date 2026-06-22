@@ -15,7 +15,7 @@ difficulty = st.sidebar.selectbox(
     index=1,
 )
 
-# FIXME 7 fixed: Attempt limits now scale correctly (Easy > Normal > Hard)
+# FIXME 7: Attempt limits now scale correctly (Easy > Normal > Hard) - fixed using agent verification
 attempt_limit_map = {
     "Easy": 8,
     "Normal": 6,
@@ -30,8 +30,18 @@ st.sidebar.caption(f"Attempts allowed: {attempt_limit}")
 
 if "secret" not in st.session_state:
     st.session_state.secret = random.randint(low, high)
+    st.session_state.difficulty = difficulty
 
-# FIXME 5 fixed: Attempts now start at 0
+# FIXME 9: When difficulty changes mid-game, secret regenerated to stay within new range - fixed with agent assistance
+if st.session_state.difficulty != difficulty:
+    st.session_state.attempts = 0
+    st.session_state.secret = random.randint(low, high)
+    st.session_state.status = "playing"
+    st.session_state.score = 0
+    st.session_state.history = []
+    st.session_state.difficulty = difficulty
+
+# FIXME 5: Attempts now start at 0 - fixed using agent assistance
 if "attempts" not in st.session_state:
     st.session_state.attempts = 0
 
@@ -46,9 +56,9 @@ if "history" not in st.session_state:
 
 st.subheader("Make a guess")
 
-# FIXME 8 fixed: Capped attempts left to prevent negative display
-# FIXME 10 fixed: Range message now uses actual difficulty range
-st.info(
+# FIXME 8+10: Capped attempts left to prevent negative display & uses actual difficulty range - fixed with agent verification
+attempts_placeholder = st.empty()
+attempts_placeholder.info(
     f"Guess a number between {low} and {high}. "
     f"Attempts left: {max(0, attempt_limit - st.session_state.attempts)}"
 )
@@ -60,10 +70,10 @@ with st.expander("Developer Debug Info"):
     st.write("Difficulty:", difficulty)
     st.write("History:", st.session_state.history)
 
-# FIXME 12: Input field key changes with difficulty - clears user input when difficulty is switched
+# FIXME 12: Static input key prevents clearing when difficulty changes - fixed with agent assistance
 raw_guess = st.text_input(
     "Enter your guess:",
-    key=f"guess_input_{difficulty}"
+    key="guess_input"
 )
 
 col1, col2, col3 = st.columns(3)
@@ -74,7 +84,7 @@ with col2:
 with col3:
     show_hint = st.checkbox("Show hint", value=True)
 
-# FIXME 6 fixed: New Game now resets status, score, history
+# FIXME 6: New Game now resets status, score, history - fixed with agent assistance
 if new_game:
     st.session_state.attempts = 0
     st.session_state.secret = random.randint(low, high)
@@ -92,29 +102,35 @@ if st.session_state.status != "playing":
     st.stop()
 
 if submit:
-    st.session_state.attempts += 1
-
     ok, guess_int, err = parse_guess(raw_guess)
 
     if not ok:
-        # FIXME 13: History stores both invalid guesses (strings) and valid guesses (ints) - type inconsistency
-        st.session_state.history.append(raw_guess)
         st.error(err)
+    # FIXME 11: Added bounds validation to ensure guess is within the difficulty range - implemented with agent assistance
+    elif guess_int < low or guess_int > high:
+        st.error(f"Out of bounds! Guess must be between {low} and {high}.")
     else:
+        st.session_state.attempts += 1
+        # FIXME 13: Only valid guesses stored in history - removed string entries with agent assistance
         st.session_state.history.append(guess_int)
 
-        # FIXME 2: Was converting secret to string on even attempts - removed type alternation
+        # FIXME 2: Was converting secret to string on even attempts - removed type alternation with agent assistance
         secret = st.session_state.secret
 
         outcome, message = check_guess(guess_int, secret)
-
-        if show_hint:
-            st.warning(message)
 
         st.session_state.score = update_score(
             current_score=st.session_state.score,
             outcome=outcome,
             attempt_number=st.session_state.attempts,
+        )
+
+        if show_hint:
+            st.warning(message)
+
+        attempts_placeholder.info(
+            f"Guess a number between {low} and {high}. "
+            f"Attempts left: {max(0, attempt_limit - st.session_state.attempts)}"
         )
 
         if outcome == "Win":
